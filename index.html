@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual y Guía Interactiva de OpenAPI 3.1 & Swagger</title>
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Barra de Progreso Top -->
+  <div id="progress-bar"></div>
+
+  <div class="app-container">
+
+    <!-- Sidebar de Navegación -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-title">
+          <div class="brand-icon">OA</div>
+          <span>OpenAPI Guide</span>
+        </div>
+      </div>
+
+      <div class="sidebar-search">
+        <div class="search-wrapper">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="sidebar-search-input" class="search-input" placeholder="Buscar tema, keyword o schema..." aria-label="Buscar en la guía">
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <div class="nav-category">
+          <div class="category-header">1. Introducción</div>
+          <a href="#introduccion" class="nav-link active"><i class="fas fa-book"></i> ¿Qué es OpenAPI?</a>
+          <a href="#swagger-vs-openapi" class="nav-link"><i class="fas fa-balance-scale"></i> Swagger vs OpenAPI</a>
+          <a href="#api-first" class="nav-link"><i class="fas fa-rocket"></i> Filosofía API-First</a>
+        </div>
+
+        <div class="nav-category">
+          <div class="category-header">2. Estructura de Documento</div>
+          <a href="#estructura-base" class="nav-link"><i class="fas fa-sitemap"></i> Anatomía de OAS 3.1</a>
+          <a href="#info-servers" class="nav-link"><i class="fas fa-server"></i> Info & Servers</a>
+          <a href="#paths-operaciones" class="nav-link"><i class="fas fa-route"></i> Paths y Métodos HTTP</a>
+        </div>
+
+        <div class="nav-category">
+          <div class="category-header">3. Parámetros & Respuestas</div>
+          <a href="#parametros" class="nav-link"><i class="fas fa-filter"></i> Tipos de Parámetros</a>
+          <a href="#request-body" class="nav-link"><i class="fas fa-file-import"></i> Request Body</a>
+          <a href="#responses-status" class="nav-link"><i class="fas fa-reply"></i> Responses y HTTP Status</a>
+        </div>
+
+        <div class="nav-category">
+          <div class="category-header">4. Schemas y Modelos</div>
+          <a href="#schemas-basicos" class="nav-link"><i class="fas fa-cubes"></i> Tipos de Datos y Schemas</a>
+          <a href="#validaciones-composicion" class="nav-link"><i class="fas fa-code-branch"></i> oneOf, anyOf, allOf</a>
+          <a href="#componentes-ref" class="nav-link"><i class="fas fa-link"></i> Reutilización con $ref</a>
+        </div>
+
+        <div class="nav-category">
+          <div class="category-header">5. Seguridad</div>
+          <a href="#security-schemes" class="nav-link"><i class="fas fa-shield-alt"></i> Security Schemes</a>
+          <a href="#oauth2-jwt" class="nav-link"><i class="fas fa-key"></i> Bearer JWT & OAuth 2.0</a>
+        </div>
+
+        <div class="nav-category">
+          <div class="category-header">6. Ecosistema</div>
+          <a href="#herramientas-ecosistema" class="nav-link"><i class="fas fa-tools"></i> Herramientas UI & Linters</a>
+        </div>
+
+        <div class="nav-category">
+          <div class="category-header">7. Herramientas Interactivas</div>
+          <a href="#wizard" class="nav-link"><i class="fas fa-magic"></i> Asistente de Diseño</a>
+          <a href="#playground" class="nav-link"><i class="fas fa-vial"></i> Playground OpenAPI</a>
+          <a href="#cheat-sheet" class="nav-link"><i class="fas fa-bolt"></i> Cheat Sheet</a>
+        </div>
+
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="progress-info">
+          <span>Progreso: <strong id="progress-percentage">0%</strong></span>
+        </div>
+        <button id="theme-toggle" class="theme-toggle-btn" title="Cambiar Tema" aria-label="Cambiar Tema">
+          <i class="fas fa-sun" id="theme-icon"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Área Principal de Contenido -->
+    <div class="main-wrapper">
+
+      <header class="top-header">
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menú">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="header-title">
+          <span style="font-weight: 700; color: var(--text-primary);">Manual y Guía Oficial de OpenAPI 3.1</span>
+        </div>
+        <div class="header-status">
+          <span class="badge badge-green"><i class="fas fa-check-circle"></i> OAS 3.1.0 Ready</span>
+          <span class="badge badge-teal"><i class="fas fa-code"></i> YAML / JSON</span>
+        </div>
+      </header>
+
+      <main class="content-area">
+
+        <!-- SECCIÓN 1: INTRODUCCIÓN -->
+        <section id="introduccion" class="guide-section active">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-book" style="color: var(--swagger-green);"></i> ¿Qué es OpenAPI Specification (OAS)?</h1>
+            <p class="section-subtitle">El estándar internacional agnóstico de lenguaje para describir e interconectar APIs RESTful.</p>
+          </div>
+
+          <p><strong>OpenAPI Specification (OAS)</strong> es una especificación estándar de formato abierto (escrita en YAML o JSON) que permite describir completamente la estructura de un servicio web HTTP o API RESTful. Permite a humanos y máquinas descubrir y comprender las capacidades del servicio sin necesidad de acceder al código fuente ni a la documentación interna.</p>
+
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-title"><i class="fas fa-robot" style="color: var(--openapi-teal);"></i> Machine Readable</div>
+              <div class="card-desc">Herramientas automatizadas pueden generar automáticamente clientes SDK, código de servidor, pruebas unitarias y documentación interactiva.</div>
+            </div>
+            <div class="feature-card">
+              <div class="card-title"><i class="fas fa-users" style="color: var(--swagger-green);"></i> Human Readable</div>
+              <div class="card-desc">Tanto desarrolladores como arquitectos y analistas pueden leer y diseñar APIs en formato YAML ultra-limpio antes de escribir una línea de código.</div>
+            </div>
+            <div class="feature-card">
+              <div class="card-title"><i class="fas fa-globe" style="color: var(--accent-primary);"></i> Ecosistema Estándar</div>
+              <div class="card-desc">Respaldado por la <em>OpenAPI Initiative (Linux Foundation)</em> y soportado por gigantes como Google, Microsoft, IBM, Red Hat y SmartBear.</div>
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <i class="fas fa-lightbulb callout-icon"></i>
+            <div>
+              <strong>Novedad en OpenAPI 3.1:</strong> Integración total y compatibilidad al 100% con <strong>JSON Schema Draft 2020-12</strong>, soporte nativo para `webhooks` a nivel raíz, e identificadores de licencias usando expresiones SPDX.
+            </div>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 2: SWAGGER VS OPENAPI -->
+        <section id="swagger-vs-openapi" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-balance-scale" style="color: var(--openapi-teal);"></i> Swagger vs. OpenAPI</h1>
+            <p class="section-subtitle">Aclarando la confusión entre la especificación y el conjunto de herramientas.</p>
+          </div>
+
+          <p>Es muy común escuchar los términos "Swagger" y "OpenAPI" usados de forma indistinta, pero representan conceptos diferentes:</p>
+
+          <div class="custom-table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Concepto</th>
+                  <th>OpenAPI (OAS)</th>
+                  <th>Swagger</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Naturaleza</strong></td>
+                  <td>Es la <strong>especificación / estándar</strong> abierto.</td>
+                  <td>Es un conjunto de <strong>herramientas comerciales y open-source</strong>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Propiedad</strong></td>
+                  <td>Linux Foundation (OpenAPI Initiative).</td>
+                  <td>SmartBear Software.</td>
+                </tr>
+                <tr>
+                  <td><strong>Ejemplos</strong></td>
+                  <td>`OpenAPI 3.0.3`, `OpenAPI 3.1.0`.</td>
+                  <td>`Swagger UI`, `Swagger Editor`, `Swagger Hub`.</td>
+                </tr>
+                <tr>
+                  <td><strong>Función</strong></td>
+                  <td>Reglas de sintaxis YAML/JSON para definir el contrato API.</td>
+                  <td>Software que lee el documento OpenAPI para visualizarlo o probarlo.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 3: API-FIRST -->
+        <section id="api-first" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-rocket" style="color: var(--accent-primary);"></i> Filosofía API-First</h1>
+            <p class="section-subtitle">Diseña el contrato antes de escribir el código de backend o frontend.</p>
+          </div>
+
+          <p>El enfoque <strong>API-First</strong> sitúa el diseño de la API en el centro del desarrollo de software. En lugar de desarrollar el backend y luego exportar la documentación (Code-First), se redacta primero el contrato OpenAPI.</p>
+
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-title"><i class="fas fa-sync" style="color: var(--swagger-green);"></i> Paralelización</div>
+              <div class="card-desc">Los equipos de Frontend y Backend pueden trabajar simultáneamente usando servidores Mock basados en el archivo OpenAPI.</div>
+            </div>
+            <div class="feature-card">
+              <div class="card-title"><i class="fas fa-shield-alt" style="color: var(--method-post);"></i> Menos Errores de Integración</div>
+              <div class="card-desc">Todas las partes acuerdan los schemas, códigos de respuesta y autenticación antes de implementar la lógica de negocio.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 4: ESTRUCTURA BASE DE OAS -->
+        <section id="estructura-base" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-sitemap" style="color: var(--swagger-green);"></i> Anatomía de un Documento OpenAPI 3.1</h1>
+            <p class="section-subtitle">Los campos raíz esenciales para construir un documento OAS válido.</p>
+          </div>
+
+          <p>Un documento OpenAPI válido debe contener al menos las secciones `openapi`, `info` y al menos una vía de entrada (`paths`, `webhooks` o `components`).</p>
+
+          <div class="code-block-container">
+            <div class="code-header">
+              <span class="code-title">openapi-base-template.yaml</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
+            </div>
+            <pre class="code-content"><code>openapi: 3.1.0
+info:
+  title: API de Gestión de Usuarios
+  summary: Servicio para administrar cuentas de usuario y perfiles.
+  description: Esta API permite crear, listar, actualizar y eliminar usuarios.
+  version: 1.0.0
+  contact:
+    name: Soporte Técnico
+    email: soporte@ejemplo.com
+    url: https://ejemplo.com/soporte
+  license:
+    name: MIT
+    identifier: MIT
+
+servers:
+  - url: https://api.ejemplo.com/v1
+    description: Servidor de Producción
+  - url: https://staging-api.ejemplo.com/v1
+    description: Servidor de Pruebas (Staging)
+
+paths:
+  /usuarios:
+    get:
+      summary: Listar todos los usuarios
+      description: Retorna una lista paginada de usuarios activos.
+      responses:
+        '200':
+          description: Lista de usuarios obtenida exitosamente.</code></pre>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 5: INFO & SERVERS -->
+        <section id="info-servers" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-server" style="color: var(--openapi-teal);"></i> Metadatos (`info`) y Servidores (`servers`)</h1>
+            <p class="section-subtitle">Configura entornos dinámicos y variables de servidor.</p>
+          </div>
+
+          <p>Puedes definir múltiples servidores y utilizar <strong>variables de servidor</strong> con valores permitidos (`enum`) y valores por defecto (`default`).</p>
+
+          <div class="code-block-container">
+            <div class="code-header">
+              <span class="code-title">servers-with-variables.yaml</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
+            </div>
+            <pre class="code-content"><code>servers:
+  - url: https://{entorno}.ejemplo.com:{puerto}/v1
+    description: Servidor configurable con variables
+    variables:
+      entorno:
+        default: api
+        enum:
+          - api
+          - staging-api
+          - dev-api
+        description: Subdominio del entorno
+      puerto:
+        default: '443'
+        enum:
+          - '443'
+          - '8443'</code></pre>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 6: PATHS Y OPERACIONES -->
+        <section id="paths-operaciones" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-route" style="color: var(--accent-primary);"></i> Paths y Operaciones HTTP</h1>
+            <p class="section-subtitle">Definiendo endpoints, verbos HTTP y detalles de la operación.</p>
+          </div>
+
+          <p>Cada ruta en el objeto `paths` puede contener uno o más verbos HTTP:</p>
+          <p>
+            <span class="http-method method-get">GET</span>
+            <span class="http-method method-post">POST</span>
+            <span class="http-method method-put">PUT</span>
+            <span class="http-method method-delete">DELETE</span>
+            <span class="http-method method-patch">PATCH</span>
+          </p>
+
+          <div class="code-block-container">
+            <div class="code-header">
+              <span class="code-title">paths-example.yaml</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
+            </div>
+            <pre class="code-content"><code>paths:
+  /usuarios/{id}:
+    get:
+      tags:
+        - Usuarios
+      summary: Obtener usuario por ID
+      operationId: getUsuarioById
+      deprecated: false
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identificador único del usuario (UUID)
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Usuario encontrado.
+        '404':
+          description: Usuario no encontrado.</code></pre>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 7: PARÁMETROS -->
+        <section id="parametros" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-filter" style="color: var(--swagger-green);"></i> Tipos de Parámetros</h1>
+            <p class="section-subtitle">Path, Query, Header y Cookie Parameters.</p>
+          </div>
+
+          <p>En OpenAPI se admiten cuatro ubicaciones principales (`in`) para los parámetros:</p>
+
+          <div class="custom-table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Ubicación (`in`)</th>
+                  <th>Obligatorio (`required`)</th>
+                  <th>Ejemplo de Uso</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>`path`</td>
+                  <td><strong>true</strong> (Siempre obligatorio)</td>
+                  <td>`/productos/{categoriaId}`</td>
+                </tr>
+                <tr>
+                  <td>`query`</td>
+                  <td>Opcional (default: false)</td>
+                  <td>`/productos?limite=10&pagina=1`</td>
+                </tr>
+                <tr>
+                  <td>`header`</td>
+                  <td>Opcional</td>
+                  <td>`X-Request-ID: 12345`</td>
+                </tr>
+                <tr>
+                  <td>`cookie`</td>
+                  <td>Opcional</td>
+                  <td>`Cookie: session_id=abcxyz`</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 8: REQUEST BODY -->
+        <section id="request-body" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-file-import" style="color: var(--method-post);"></i> Request Body (Cuerpo de la Petición)</h1>
+            <p class="section-subtitle">Envío de datos JSON, Formularios y Carga de Archivos.</p>
+          </div>
+
+          <div class="code-block-container">
+            <div class="code-header">
+              <span class="code-title">request-body-json.yaml</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
+            </div>
+            <pre class="code-content"><code>paths:
+  /usuarios:
+    post:
+      summary: Crear nuevo usuario
+      requestBody:
+        required: true
+        description: Datos para el registro del usuario
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nombre
+                - email
+              properties:
+                nombre:
+                  type: string
+                  example: "Juan Pérez"
+                email:
+                  type: string
+                  format: email
+                  example: "juan.perez@ejemplo.com"
+      responses:
+        '201':
+          description: Usuario creado exitosamente.</code></pre>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 9: RESPONSES -->
+        <section id="responses-status" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-reply" style="color: var(--openapi-teal);"></i> Respuestas HTTP (Responses)</h1>
+            <p class="section-subtitle">Mapeo de códigos de estado, cabeceras y formatos de respuesta.</p>
+          </div>
+
+          <p>Mapea cada respuesta HTTP usando sus códigos numéricos estandarizados (`200`, `201`, `204`, `400`, `401`, `404`, `500`) o patrones con comodines (`2XX`, `4XX`).</p>
+        </section>
+
+        <!-- SECCIÓN 10: SCHEMAS BÁSICOS -->
+        <section id="schemas-basicos" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-cubes" style="color: var(--swagger-green);"></i> Schemas y Tipos de Datos</h1>
+            <p class="section-subtitle">Definiendo estructuras de objetos, arrays, primitivos y validaciones.</p>
+          </div>
+
+          <p>En OpenAPI 3.1, los Schemas soportan todos los tipos JSON estándar: `string`, `number`, `integer`, `boolean`, `array`, `object`, e incluso arreglos de tipos para valores nulos: `type: ["string", "null"]`.</p>
+        </section>
+
+        <!-- SECCIÓN 11: COMPOSICIÓN (oneOf, anyOf, allOf) -->
+        <section id="validaciones-composicion" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-code-branch" style="color: var(--accent-primary);"></i> Composición Lógica: `oneOf`, `anyOf`, `allOf`</h1>
+            <p class="section-subtitle">Combinando y extendiendo esquemas de datos complejos.</p>
+          </div>
+
+          <div class="custom-table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Operador</th>
+                  <th>Regla de Validación</th>
+                  <th>Uso Típico</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>`allOf`</td>
+                  <td>Debe cumplir con <strong>TODOS</strong> los schemas especificados.</td>
+                  <td>Herencia / Extensión de objetos base.</td>
+                </tr>
+                <tr>
+                  <td>`oneOf`</td>
+                  <td>Debe cumplir con <strong>EXACTAMENTE UNO</strong> de los schemas.</td>
+                  <td>Polimorfismo (Ej: Pago por Tarjeta O por Paypal).</td>
+                </tr>
+                <tr>
+                  <td>`anyOf`</td>
+                  <td>Debe cumplir con <strong>AL MENOS UNO</strong> de los schemas.</td>
+                  <td>Estructuras flexibles de datos combinados.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 12: COMPONENTES Y $REF -->
+        <section id="componentes-ref" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-link" style="color: var(--swagger-green);"></i> Reutilización con `components` y `$ref`</h1>
+            <p class="section-subtitle">Mantén tu código DRY (Don't Repeat Yourself) reutilizando esquemas.</p>
+          </div>
+
+          <div class="code-block-container">
+            <div class="code-header">
+              <span class="code-title">components-ref-example.yaml</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
+            </div>
+            <pre class="code-content"><code>paths:
+  /usuarios/{id}:
+    get:
+      summary: Obtener perfil de usuario
+      responses:
+        '200':
+          description: Éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+
+components:
+  schemas:
+    Usuario:
+      type: object
+      required:
+        - id
+        - email
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email</code></pre>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 13: SECURITY SCHEMES -->
+        <section id="security-schemes" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-shield-alt" style="color: #ef4444;"></i> Autenticación y Esquemas de Seguridad</h1>
+            <p class="section-subtitle">API Keys, HTTP Basic, Bearer JWT y OAuth 2.0.</p>
+          </div>
+
+          <p>Define cómo se protegen los endpoints en `components/securitySchemes` y aplica la seguridad globalmente o por endpoint.</p>
+        </section>
+
+        <!-- SECCIÓN 14: OAUTH2 & JWT -->
+        <section id="oauth2-jwt" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-key" style="color: var(--accent-primary);"></i> Configuración de JWT Bearer & OAuth 2.0</h1>
+            <p class="section-subtitle">Estructura completa para seguridad avanzada de nivel empresarial.</p>
+          </div>
+
+          <div class="code-block-container">
+            <div class="code-header">
+              <span class="code-title">security-jwt-oauth2.yaml</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
+            </div>
+            <pre class="code-content"><code>components:
+  securitySchemes:
+    BearerJwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Ingrese su token JWT con formato "Bearer {token}"
+
+    OAuth2Flow:
+      type: oauth2
+      description: Flujo de autorización OAuth 2.0
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.ejemplo.com/oauth/authorize
+          tokenUrl: https://auth.ejemplo.com/oauth/token
+          scopes:
+            read:usuarios: Leer información de usuarios
+            write:usuarios: Crear y modificar usuarios
+
+security:
+  - BearerJwt: []</code></pre>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 15: ECOSISTEMA DE HERRAMIENTAS -->
+        <section id="herramientas-ecosistema" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-tools" style="color: var(--openapi-teal);"></i> Herramientas del Ecosistema OpenAPI</h1>
+            <p class="section-subtitle">UI Renderers, Validadores, Linters y Generadores de Código.</p>
+          </div>
+
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-title"><i class="fas fa-desktop" style="color: var(--swagger-green);"></i> Swagger UI & Redoc</div>
+              <div class="card-desc">Renderizan archivos OpenAPI convirtiéndolos en sitios web interactivos de documentación donde los usuarios pueden probar la API en tiempo real.</div>
+            </div>
+            <div class="feature-card">
+              <div class="card-title"><i class="fas fa-check-double" style="color: var(--accent-primary);"></i> Spectral (Linter)</div>
+              <div class="card-desc">Linter CLI flexible para validar la sintaxis, convenciones de nombres, descripciones y calidad de tus documentos OpenAPI.</div>
+            </div>
+            <div class="feature-card">
+              <div class="card-title"><i class="fas fa-cogs" style="color: var(--method-patch);"></i> OpenAPI Generator</div>
+              <div class="card-desc">Genera SDKs de clientes, stubs de servidores y modelos en más de 50 lenguajes (Java, TypeScript, Python, Go, Rust, etc.).</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 16: ASISTENTE INTERACTIVO (WIZARD) -->
+        <section id="wizard" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-magic" style="color: var(--swagger-green);"></i> Asistente Interactivo de Diseño API</h1>
+            <p class="section-subtitle">Responde unas preguntas y genera la especificación OpenAPI adaptada a tu proyecto.</p>
+          </div>
+
+          <div class="wizard-box">
+            <div class="wizard-steps-bar">
+              <div class="wizard-step-node active">1</div>
+              <div class="wizard-step-node">2</div>
+              <div class="wizard-step-node">3</div>
+              <div class="wizard-step-node">4</div>
+            </div>
+
+            <!-- Paso 1: Tipo de API -->
+            <div class="wizard-step-content" data-step="1">
+              <h3>Paso 1: ¿Qué tipo de API estás construyendo?</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">Selecciona el propósito principal del servicio.</p>
+              <div class="wizard-options-grid">
+                <div class="option-card" data-group="apiType" data-value="rest">
+                  <div class="option-card-title">RESTful Estándar</div>
+                  <div class="option-card-desc">API CRUD para aplicaciones web o móviles tradicionales.</div>
+                </div>
+                <div class="option-card" data-group="apiType" data-value="microservices">
+                  <div class="option-card-title">Microservicios</div>
+                  <div class="option-card-desc">Servicio interno de alta frecuencia e interconexión.</div>
+                </div>
+                <div class="option-card" data-group="apiType" data-value="saas">
+                  <div class="option-card-title">API Pública / SaaS</div>
+                  <div class="option-card-desc">API expuesta a desarrolladores externos y clientes.</div>
+                </div>
+              </div>
+              <div class="wizard-actions">
+                <button class="btn btn-secondary" disabled>Anterior</button>
+                <button class="btn btn-primary wizard-next" data-step="1" disabled>Siguiente <i class="fas fa-arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Paso 2: Autenticación -->
+            <div class="wizard-step-content" data-step="2" style="display: none;">
+              <h3>Paso 2: Estrategia de Autenticación</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">¿Cómo protegerás tus endpoints?</p>
+              <div class="wizard-options-grid">
+                <div class="option-card" data-group="authType" data-value="jwt">
+                  <div class="option-card-title">Bearer JWT Token</div>
+                  <div class="option-card-desc">Tokens de sesión firmados en la cabecera HTTP Authorization.</div>
+                </div>
+                <div class="option-card" data-group="authType" data-value="oauth2">
+                  <div class="option-card-title">OAuth 2.0</div>
+                  <div class="option-card-desc">Flujo completo con Scopes y servidores de identidad externos.</div>
+                </div>
+                <div class="option-card" data-group="authType" data-value="apikey">
+                  <div class="option-card-title">API Key</div>
+                  <div class="option-card-desc">Clave estática enviada mediante Header o Query param.</div>
+                </div>
+              </div>
+              <div class="wizard-actions">
+                <button class="btn btn-secondary wizard-prev" data-step="2">Anterior</button>
+                <button class="btn btn-primary wizard-next" data-step="2" disabled>Siguiente <i class="fas fa-arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Paso 3: Visualización -->
+            <div class="wizard-step-content" data-step="3" style="display: none;">
+              <h3>Paso 3: Visualización de Documentación</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">¿Qué herramienta UI prefieres usar?</p>
+              <div class="wizard-options-grid">
+                <div class="option-card" data-group="docTool" data-value="swagger-ui">
+                  <div class="option-card-title">Swagger UI</div>
+                  <div class="option-card-desc">Interfaz clásica e interactiva que permite probar endpoints.</div>
+                </div>
+                <div class="option-card" data-group="docTool" data-value="redoc">
+                  <div class="option-card-title">Redoc</div>
+                  <div class="option-card-desc">Diseño limpio de 3 columnas ultra-elegante enfocado en lectura.</div>
+                </div>
+              </div>
+              <div class="wizard-actions">
+                <button class="btn btn-secondary wizard-prev" data-step="3">Anterior</button>
+                <button class="btn btn-primary wizard-next" data-step="3" disabled>Siguiente <i class="fas fa-arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Paso 4: Confirmación -->
+            <div class="wizard-step-content" data-step="4" style="display: none;">
+              <h3>Paso 4: ¡Todo Listo para Generar!</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">Haz clic en el botón para generar tu plantilla OpenAPI 3.1 personalizada.</p>
+              <div class="wizard-actions">
+                <button class="btn btn-secondary wizard-prev" data-step="4">Anterior</button>
+                <button class="btn btn-primary wizard-next" data-step="4"><i class="fas fa-magic"></i> Generar Especificación</button>
+              </div>
+            </div>
+
+            <!-- Resultado del Wizard -->
+            <div id="wizard-result-step" style="display: none;">
+              <h3 style="color: var(--swagger-green); margin-bottom: 0.5rem;"><i class="fas fa-check-circle"></i> Especificación OpenAPI Generada</h3>
+              <div id="wizard-diagnosis-text" style="margin-bottom: 1rem;"></div>
+              
+              <div class="code-block-container">
+                <div class="code-header">
+                  <span class="code-title">generated-openapi-spec.yaml</span>
+                  <button class="copy-btn"><i class="fas fa-copy"></i> Copiar YAML</button>
+                </div>
+                <pre class="code-content"><code id="wizard-generated-code"># Tu código aparecerá aquí...</code></pre>
+              </div>
+
+              <div style="margin-top: 1.5rem; text-align: right;">
+                <button class="btn btn-secondary" id="reset-wizard-btn"><i class="fas fa-redo"></i> Reiniciar Asistente</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- SECCIÓN 17: PLAYGROUND INTERACTIVO -->
+        <section id="playground" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-vial" style="color: var(--openapi-teal);"></i> Playground & Generador OpenAPI en Tiempo Real</h1>
+            <p class="section-subtitle">Modifica los parámetros visualmente y observa cómo se construye la especificación YAML instantáneamente.</p>
+          </div>
+
+          <div class="playground-grid">
+            <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: var(--radius-md);">
+              <h3 style="margin-bottom: 1rem; font-size: 1.1rem;"><i class="fas fa-sliders-h"></i> Configuración de la API</h3>
+
+              <div class="form-group">
+                <label class="form-label" for="pg-title">Título de la API:</label>
+                <input type="text" id="pg-title" class="form-control" value="API de Tienda Online">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="pg-version">Versión de la API:</label>
+                <input type="text" id="pg-version" class="form-control" value="1.0.0">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="pg-server">URL del Servidor Base:</label>
+                <input type="text" id="pg-server" class="form-control" value="https://api.tienda.com/v1">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="pg-path">Ruta del Endpoint (Path):</label>
+                <input type="text" id="pg-path" class="form-control" value="/productos">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="pg-method">Método HTTP:</label>
+                <select id="pg-method" class="form-control">
+                  <option value="get">GET - Consultar</option>
+                  <option value="post" selected>POST - Crear</option>
+                  <option value="put">PUT - Actualizar</option>
+                  <option value="delete">DELETE - Eliminar</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="pg-status">Código de Respuesta Exito:</label>
+                <select id="pg-status" class="form-control">
+                  <option value="200">200 OK</option>
+                  <option value="201" selected>201 Created</option>
+                  <option value="204">204 No Content</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Vista Previa Live -->
+            <div>
+              <div class="code-block-container" style="margin-top: 0; height: 100%; display: flex; flex-direction: column;">
+                <div class="code-header">
+                  <span class="code-title">live-preview.yaml</span>
+                  <button class="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
+                </div>
+                <pre class="code-content" style="flex: 1; min-height: 380px;"><code id="pg-output"># La especificación se generará dinámicamente...</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 18: CHEAT SHEET -->
+        <section id="cheat-sheet" class="guide-section">
+          <div class="section-header">
+            <h1 class="section-title"><i class="fas fa-bolt" style="color: var(--swagger-green);"></i> OpenAPI 3.1 Cheat Sheet (Referencia Rápida)</h1>
+            <p class="section-subtitle">Fichas rápidas de sintaxis con botones de copia directa.</p>
+          </div>
+
+          <div class="card-grid">
+
+            <div class="feature-card">
+              <div class="card-title">Respuesta Estándar 200 JSON</div>
+              <div class="code-block-container" style="margin: 0.5rem 0;">
+                <div class="code-header">
+                  <span class="code-title">yaml</span>
+                  <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                </div>
+                <pre class="code-content"><code>'200':
+  description: OK
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/Respuesta'</code></pre>
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-title">Parámetro Query Paginado</div>
+              <div class="code-block-container" style="margin: 0.5rem 0;">
+                <div class="code-header">
+                  <span class="code-title">yaml</span>
+                  <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                </div>
+                <pre class="code-content"><code>- name: page
+  in: query
+  required: false
+  schema:
+    type: integer
+    default: 1
+    minimum: 1</code></pre>
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-title">Bearer JWT Auth</div>
+              <div class="code-block-container" style="margin: 0.5rem 0;">
+                <div class="code-header">
+                  <span class="code-title">yaml</span>
+                  <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                </div>
+                <pre class="code-content"><code>BearerAuth:
+  type: http
+  scheme: bearer
+  bearerFormat: JWT</code></pre>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Scripts JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
